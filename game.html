@@ -1,0 +1,912 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    
+    <script>
+      // ページの読み込みを待つ
+      window.addEventListener('load', init);
+        
+      let force = false;
+      let points = 0;
+
+      let light = [0,0,0,0,0,0,0,0,0,0,0]
+      let dark = [0,0,0,0,0,0]
+
+      let keyCode = 0;
+
+      function init() {
+        let location = document.getElementById("location");
+        let reloadButton = document.getElementById("reload");
+        reloadButton.onclick = () =>{
+            location.reload();
+        }
+
+        window.addEventListener('keydown',
+        event => {
+            keyCode = event.keyCode;
+            console.log(keyCode);
+        });
+
+
+
+        // サイズを指定
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        let cameraPositionX = 260;
+        //let cameraPositionX = 0;
+        let cameraPositionY = 20;
+        //let cameraPositionY = 800;
+        let cameraPositionZ = 490;
+        //let cameraPositionZ = 1300;
+
+
+        let cameraLookX = 260;
+        //let cameraLookX = 0;
+        let cameraLookY = 20;
+        //let cameraLookY = 200;
+        let cameraLookZ = 470;
+        
+
+        document.addEventListener("mousemove", (event)=>{
+          mouseX = event.pageX;
+        })
+
+        // レンダラーを作成
+        const renderer = new THREE.WebGLRenderer({
+          canvas: document.querySelector('#myCanvas')
+        });
+        renderer.setSize(width, height);
+
+        // シーンを作成
+        const scene = new THREE.Scene();
+
+        // カメラを作成
+        const camera = new THREE.PerspectiveCamera(45, width / height, 1,2800);
+        camera.position.set(cameraPositionX, cameraPositionY, cameraPositionZ);
+        camera.lookAt(new THREE.Vector3(cameraLookX, cameraLookY, cameraLookZ));
+
+
+        // 平行光源を作成
+         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+         directionalLight.position.set(1, 1, 1);
+         scene.add(directionalLight);
+
+        //道に光を敷いていく作業
+        for(let i= 0; i< 5; i++){
+            const blue_light = new THREE.PointLight(0x219DDD, 0.9, 100, 1.0);
+            blue_light.position.set(279, 0.1, 460-44*i);
+            scene.add(blue_light);
+        }
+
+        for(let i= 0; i< 5; i++){
+            const blue_light = new THREE.PointLight(0x219DDD, 0.9, 100, 1.0);
+            blue_light.position.set(241, 0.1, 460-44*i);
+            scene.add(blue_light);
+        }
+
+         for(let i= 0; i< 5; i++){
+             const blue_light = new THREE.PointLight(0x219DDD, 0.9, 100, 1.0);
+             blue_light.position.set(-279, 0.1, 460-44*i);
+             scene.add(blue_light);
+         }
+
+         for(let i= 0; i< 5; i++){
+             const blue_light = new THREE.PointLight(0x219DDD, 0.9, 100, 1.0);
+             blue_light.position.set(-241, 0.1, 460-44*i);
+             scene.add(blue_light);
+         }
+
+         for(let i= 0; i< 5; i++){
+             const blue_light = new THREE.PointLight(0x219DDD, 0.9, 100, 1.0);
+             blue_light.position.set(279, 0.1, -460+44*i);
+             scene.add(blue_light);
+         }
+
+         for(let i= 0; i< 5; i++){
+             const blue_light = new THREE.PointLight(0x219DDD, 0.9, 100, 1.0);
+             blue_light.position.set(241, 0.1, -460+44*i);
+             scene.add(blue_light);
+        }
+
+        for(let i= 0; i< 5; i++){
+            const blue_light = new THREE.PointLight(0x219DDD, 0.9, 100, 1.0);
+            blue_light.position.set(-279, 0.1, -460+44*i);
+            scene.add(blue_light);
+        }
+        
+        for(let i= 0; i< 5; i++){
+            const blue_light = new THREE.PointLight(0x219DDD, 0.9, 100, 1.0);
+            blue_light.position.set(-241, 0.1, -460+44*i);
+            scene.add(blue_light);
+        }
+
+        for(let i= 0; i< 3; i++){
+            const blue_light = new THREE.PointLight(0x219DDD, 0.9, 100, 1.0);
+            blue_light.position.set(460 - 66 * i, 0.1, 19);
+            scene.add(blue_light);
+        }
+
+        for(let i= 0; i< 3; i++){
+            const blue_light = new THREE.PointLight(0x219DDD, 0.9, 100, 1.0);
+            blue_light.position.set(460 - 66 * i, 0.1, -19);
+            scene.add(blue_light);
+        }
+
+        for(let i= 0; i< 3; i++){
+            const blue_light = new THREE.PointLight(0x219DDD, 0.9, 100, 1.0);
+            blue_light.position.set(-460 + 66 * i, 0.1, 19);
+            scene.add(blue_light);
+        }
+        
+        for(let i= 0; i< 10; i++){
+            const blue_light = new THREE.PointLight(0x219DDD, 0.9, 100, 1.0);
+            blue_light.position.set(-460 + 66 * i, 0.1, -19);
+            scene.add(blue_light);
+        }
+
+        var spotLight_1 = new THREE.SpotLight( 0xffffff, 0.5 );
+        spotLight_1.position.set( 278, 1, 278 );
+        scene.add(spotLight_1);
+
+        var spotLight_2 = new THREE.SpotLight( 0xffffff, 0.5 );
+        spotLight_2.position.set( -278, 1, 278 );
+        scene.add(spotLight_2);
+
+        // var spotLight_3 = new THREE.SpotLight( 0xffffff, 0.5 );
+        // spotLight_3.position.set( -278, 1, -278 );
+        // scene.add(spotLight_3);
+
+        // var spotLight_4 = new THREE.SpotLight( 0xffffff, 0.5 );
+        // spotLight_4.position.set( 278, 1, -278 );
+        // scene.add(spotLight_4);
+
+        // マテリアルを作成
+        let ground_material = new THREE.MeshStandardMaterial({color: 0x888888});
+        // 球体の形状を作成します
+        const ground_geometry = new THREE.BoxGeometry(1000, 10, 1000);
+        // 形状とマテリアルからメッシュを作成します
+        let ground_Mesh = new THREE.Mesh(ground_geometry, ground_material);
+        // シーンにメッシュを追加します
+        ground_Mesh.position.set(0,-5,0);
+        scene.add(ground_Mesh);
+
+        for(let i = 0; i < 9; i++){
+            for (let j = 0; j < 9; j++){
+                let material_1 = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
+                let geometry_1 = new THREE.BoxGeometry(20, 80, 20);
+                let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                // シーンにメッシュを追加します
+                smallhouse_1.position.set(-290 - 25 * i,40, - 290 - 25 * j);
+                scene.add(smallhouse_1);
+            }
+        }
+
+        for(let i = 0; i < 9; i++){
+            for (let j = 0; j < 9; j++){
+                let material_1 = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
+                let geometry_1 = new THREE.BoxGeometry(20, 80, 20);
+                let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                // シーンにメッシュを追加します
+                smallhouse_1.position.set(-30 - 25 * i,40, - 290 - 25 * j);
+                scene.add(smallhouse_1);
+            }
+        }
+
+        for(let i = 0; i < 9; i++){
+            for (let j = 0; j < 9; j++){
+                let material_1 = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
+                let geometry_1 = new THREE.BoxGeometry(20, 80, 20);
+                let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                // シーンにメッシュを追加します
+                smallhouse_1.position.set(230 - 25 * i,40, - 290 - 25 * j);
+                scene.add(smallhouse_1);
+            }
+        }
+
+        for(let i = 0; i < 9; i++){
+            for (let j = 0; j < 9; j++){
+                let material_1 = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
+                let geometry_1 = new THREE.BoxGeometry(20, 80, 20);
+                let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                // シーンにメッシュを追加します
+                smallhouse_1.position.set(490 - 25 * i,40, - 290 - 25 * j);
+                scene.add(smallhouse_1);
+            }
+        }
+
+        for(let i = 0; i < 9; i++){
+            for (let j = 0; j < 9; j++){
+                let material_1 = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
+                let geometry_1 = new THREE.BoxGeometry(20, 80, 20);
+                let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                // シーンにメッシュを追加します
+                smallhouse_1.position.set(490 - 25 * i,40, - 30 - 25 * j);
+                scene.add(smallhouse_1);
+            }
+        }
+
+        for(let i = 0; i < 9; i++){
+            for (let j = 0; j < 9; j++){
+                let material_1 = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
+                let geometry_1 = new THREE.BoxGeometry(20, 80, 20);
+                let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                // シーンにメッシュを追加します
+                smallhouse_1.position.set(490 - 25 * i,40, 230 - 25 * j);
+                scene.add(smallhouse_1);
+            }
+        }
+
+        for(let i = 0; i < 9; i++){
+            for (let j = 0; j < 9; j++){
+                let material_1 = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
+                let geometry_1 = new THREE.BoxGeometry(20, 100, 20);
+                let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                // シーンにメッシュを追加します
+                smallhouse_1.position.set(490 - 25 * i,50, 490 - 25 * j);
+                scene.add(smallhouse_1);
+            }
+        }
+
+        for(let i = 0; i < 9; i++){
+            for (let j = 0; j < 9; j++){
+                let material_1 = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
+                let geometry_1 = new THREE.BoxGeometry(20, 60, 20);
+                let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                // シーンにメッシュを追加します
+                smallhouse_1.position.set(230 - 25 * i,30, 490 - 25 * j);
+                scene.add(smallhouse_1);
+            }
+        }
+
+        for(let i = 0; i < 9; i++){
+            for (let j = 0; j < 9; j++){
+                let material_1 = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
+                let geometry_1 = new THREE.BoxGeometry(20, 120, 20);
+                let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                // シーンにメッシュを追加します
+                smallhouse_1.position.set(-30 - 25 * i,60, 490 - 25 * j);
+                scene.add(smallhouse_1);
+            }
+        }
+
+        for(let i = 0; i < 9; i++){
+            for (let j = 0; j < 9; j++){
+                let material_1 = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
+                let geometry_1 = new THREE.BoxGeometry(20, 80, 20);
+                let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                // シーンにメッシュを追加します
+                smallhouse_1.position.set(-290 - 25 * i,40, 490 - 25 * j);
+                scene.add(smallhouse_1);
+            }
+        }
+
+        for(let i = 0; i < 9; i++){
+            for (let j = 0; j < 9; j++){
+                let material_1 = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
+                let geometry_1 = new THREE.BoxGeometry(20, 80, 20);
+                let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                // シーンにメッシュを追加します
+                smallhouse_1.position.set(-290 - 25 * i,40, 230 - 25 * j);
+                scene.add(smallhouse_1);
+            }
+        }
+
+        for(let i = 0; i < 9; i++){
+            for (let j = 0; j < 9; j++){
+                let material_1 = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
+                let geometry_1 = new THREE.BoxGeometry(20, 120, 20);
+                let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                // シーンにメッシュを追加します
+                smallhouse_1.position.set(- 290 - 25 * i,60, - 30 - 25 * j);
+                scene.add(smallhouse_1);
+            }
+        }
+
+        for(let i = 0; i < 5; i++){
+            for (let j = 0; j < 5; j++){
+                let material_1 = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
+                if(i+j === 4){
+                    if(i === 0 || i === 4){
+                        let geometry_1 = new THREE.BoxGeometry(30, 400, 40);
+                        let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                        // シーンにメッシュを追加します
+                        smallhouse_1.position.set(-100+ 50 * i, 200, -100 + 50 * j);
+                        scene.add(smallhouse_1);
+                    }else if(i === 1 || i === 3){
+                        let geometry_1 = new THREE.BoxGeometry(30, 480, 40);
+                        let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                        // シーンにメッシュを追加します
+                        smallhouse_1.position.set(-100+ 50 * i, 240, -100 + 50 * j);
+                        scene.add(smallhouse_1);
+                    }else{
+                        let geometry_1 = new THREE.BoxGeometry(30, 600, 40);
+                        let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                        // シーンにメッシュを追加します
+                        smallhouse_1.position.set(-100+ 50 * i, 300, -100 + 50 * j);
+                        scene.add(smallhouse_1);
+                    }
+                }else if(i+j === 3 || i+j ===5){
+                    let geometry_1 = new THREE.BoxGeometry(30, 360, 40);
+                    let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                    // シーンにメッシュを追加します
+                    smallhouse_1.position.set(-100+ 50 * i, 180, -100 + 50 * j);
+                    scene.add(smallhouse_1);
+                }else{
+                    let geometry_1 = new THREE.BoxGeometry(30, 300, 40);
+                    let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+                    // シーンにメッシュを追加します
+                    smallhouse_1.position.set(-100+ 50 * i, 150, -100 + 50 * j);
+                    scene.add(smallhouse_1);
+                }
+                
+            }
+        }
+
+        //中心部を取り囲む壁を作る
+        for(let i = 0;i < 13; i++){
+            let material_1 = new THREE.MeshStandardMaterial({color: 0x8888ff});
+            let geometry_1 = new THREE.BoxGeometry(20, 250, 20);
+            let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+            // シーンにメッシュを追加します
+            smallhouse_1.position.set(-240 + 40 * i,125, -240);
+            scene.add(smallhouse_1);
+        }
+
+        for(let i = 0;i < 13; i++){
+            let material_1 = new THREE.MeshStandardMaterial({color: 0x219DDD});
+            let geometry_1 = new THREE.BoxGeometry(20, 250, 20);
+            let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+            // シーンにメッシュを追加します
+            smallhouse_1.position.set(-240 ,125, -240+ 40 * i);
+            scene.add(smallhouse_1);
+        }
+
+        for(let i = 0;i < 13; i++){
+            let material_1 = new THREE.MeshStandardMaterial({color: 0x219DDD});
+            let geometry_1 = new THREE.BoxGeometry(20, 250, 20);
+            let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+            // シーンにメッシュを追加します
+            smallhouse_1.position.set(240 ,125, -240+ 40 * i);
+            scene.add(smallhouse_1);
+        }
+
+        for(let i = 0;i < 13; i++){
+            let material_1 = new THREE.MeshStandardMaterial({color: 0x8888FF});
+            let geometry_1 = new THREE.BoxGeometry(20, 250, 20);
+            let smallhouse_1 = new THREE.Mesh(geometry_1, material_1);
+            // シーンにメッシュを追加します
+            smallhouse_1.position.set(-240+ 40 * i ,125, 240);
+            scene.add(smallhouse_1);
+        }
+
+
+
+        //上の方の円盤を追加
+        let material_1 = new THREE.MeshStandardMaterial({color: 0x3333FF});
+        let geometry_1 = new THREE.TorusGeometry(200, 6, 20, 60);
+        let ring_1 = new THREE.Mesh(geometry_1, material_1);
+        ring_1.position.set(0,300,0);
+        ring_1.rotation.set(Math.PI/2,0,0); 
+        scene.add(ring_1);
+
+        let material_2 = new THREE.MeshStandardMaterial({color: 0x8888FF});
+        let geometry_2 = new THREE.TorusGeometry(100, 6, 20, 40);
+        let ring_2 = new THREE.Mesh(geometry_2, material_2);
+        ring_2.position.set(0,500,0);
+        ring_2.rotation.set(Math.PI/2,0,0); 
+        scene.add(ring_2);
+
+        //上の方で玉を光らせたい
+        let material_3 = new THREE.MeshStandardMaterial({color: 0x8888ff});
+        let geometry_3 = new THREE.SphereGeometry(20, 8, 8);
+        let ball_1 = new THREE.Mesh(geometry_3, material_3);
+        ball_1.position.set(190,350,40);
+        scene.add(ball_1);
+
+        //上の方で玉を光らせたい
+        let material_4 = new THREE.MeshStandardMaterial({color: 0x8888ff});
+        let geometry_4 = new THREE.SphereGeometry(30, 8, 8);
+        let ball_2 = new THREE.Mesh(geometry_4, material_4);
+        ball_2.position.set(-140,400,-50);
+        scene.add(ball_2);
+
+        //上の方で玉を光らせたい
+        let material_5 = new THREE.MeshStandardMaterial({color: 0xFFFFFF});
+        let geometry_5 = new THREE.SphereGeometry(60, 8, 8);
+        let ball_3 = new THREE.Mesh(geometry_5, material_5);
+        ball_3.position.set(0,800,0);
+        //scene.add(ball_3);
+
+        //右手前の球と台のオブジェクト
+        let material_6 = new THREE.MeshStandardMaterial({color: 0x8888ff});
+        let geometry_6 = new THREE.CylinderGeometry(50, 60, 40);
+        let cylinder_1 = new THREE.Mesh(geometry_6, material_6);
+        cylinder_1.position.set(170,20,170);
+        scene.add(cylinder_1);
+
+        let material_7 = new THREE.MeshStandardMaterial({color: 0x219DDD});
+        let geometry_7 = new THREE.SphereGeometry(60, 8, 8);
+        let ball_4 = new THREE.Mesh(geometry_7, material_7);
+        ball_4.position.set(170,100,170);
+        scene.add(ball_4);
+
+        //三角錐のオブジェクト
+        let material_8 = new THREE.MeshStandardMaterial({color: 0x219DDD});
+        let geometry_8 = new THREE.ConeGeometry(30, 180, 20);
+        let cone_1 = new THREE.Mesh(geometry_8, material_8);
+        cone_1.position.set(-170,60,170);
+        scene.add(cone_1);
+
+        //三角錐のオブジェクト
+        let material_9 = new THREE.MeshStandardMaterial({color: 0x219DDD});
+        let geometry_9 = new THREE.ConeGeometry(30, 180, 20);
+        let cone_2 = new THREE.Mesh(geometry_9, material_9);
+        cone_2.rotation.set(Math.PI,0,0);
+        cone_2.position.set(-170,200,170);
+        scene.add(cone_2);
+
+        //円柱のオブジェクト
+        let material_10 = new THREE.MeshStandardMaterial({color: 0x219DDD});
+        let geometry_10 = new THREE.CylinderGeometry(60, 60, 180);
+        let cylinder_2 = new THREE.Mesh(geometry_10, material_10);
+        cylinder_2.position.set(-170,90,-170);
+        scene.add(cylinder_2);
+
+        //円柱のオブジェクト
+        let material_11 = new THREE.MeshStandardMaterial({color: 0x219DDD});
+        let geometry_11 = new THREE.CylinderGeometry(10, 10, 400);
+        let cylinder_3 = new THREE.Mesh(geometry_11, material_11);
+        cylinder_3.position.set(170,200,-170);
+        scene.add(cylinder_3);
+
+        //forceで集めるオブジェクト
+
+        //lightside
+
+            let lightside_material = new THREE.MeshStandardMaterial({color: 0x0039e8});
+            let lightside_geometry = new THREE.SphereGeometry(5, 8, 8);
+            let lightball_1 = new THREE.Mesh(lightside_geometry, lightside_material);
+            let lightball_2 = new THREE.Mesh(lightside_geometry, lightside_material);
+            let lightball_3 = new THREE.Mesh(lightside_geometry, lightside_material);
+            let lightball_4 = new THREE.Mesh(lightside_geometry, lightside_material);
+            let lightball_5 = new THREE.Mesh(lightside_geometry, lightside_material);
+            let lightball_6 = new THREE.Mesh(lightside_geometry, lightside_material);
+            let lightball_7 = new THREE.Mesh(lightside_geometry, lightside_material);
+            let lightball_8 = new THREE.Mesh(lightside_geometry, lightside_material);
+            let lightball_9 = new THREE.Mesh(lightside_geometry, lightside_material);
+            let lightball_10 = new THREE.Mesh(lightside_geometry, lightside_material);
+            lightball_1.position.set(265,10,265);
+            scene.add(lightball_1);
+            lightball_2.position.set(265,10,-265);
+            scene.add(lightball_2);
+            lightball_3.position.set(0,30,-480);
+            scene.add(lightball_3);
+            lightball_4.position.set(-265,10,-265);
+            scene.add(lightball_4);
+            lightball_5.position.set(-265,10,265);
+            scene.add(lightball_5);
+            lightball_6.position.set(-480,30,0);
+            scene.add(lightball_6);
+            lightball_7.position.set(0,80,75);
+            scene.add(lightball_7);
+            lightball_8.position.set(160,250,-150);
+            scene.add(lightball_8);
+            lightball_9.position.set(-75,150,-75);
+            scene.add(lightball_9);
+            lightball_10.position.set(30,500,0);
+            scene.add(lightball_10);
+
+        //darkside
+            let darkside_material = new THREE.MeshStandardMaterial({color: 0xff0000});
+            let darkside_geometry = new THREE.SphereGeometry(5, 8, 8);
+            let darkball_1 = new THREE.Mesh(darkside_geometry, darkside_material);
+            let darkball_2 = new THREE.Mesh(darkside_geometry, darkside_material);
+            let darkball_3 = new THREE.Mesh(darkside_geometry, darkside_material);
+            let darkball_4 = new THREE.Mesh(darkside_geometry, darkside_material);
+            let darkball_5 = new THREE.Mesh(darkside_geometry, darkside_material);
+            darkball_1.position.set(0, 30 , 240);
+            scene.add(darkball_1);
+            darkball_2.position.set(265, 30, 0); 
+            scene.add(darkball_2);
+            darkball_3.position.set(240, 240, -180); 
+            scene.add(darkball_3);
+            darkball_4.position.set(0, 240, 240); 
+            scene.add(darkball_4);
+            darkball_5.position.set(-240, 240, 0); 
+            scene.add(darkball_5);
+
+        // 星屑を作成します (カメラの動きをわかりやすくするため)
+        createStarField();
+
+        function createStarField() {
+          // 形状データを作成
+          const geometry = new THREE.Geometry();
+          
+          for (let i = 0; i < 100000; i++) {
+            let radius = 4000 * Math.random()+1600;
+            let theta = 2 * Math.PI * Math.random();
+            let phi = 2 * Math.PI * Math.random();
+            geometry.vertices.push(
+              new THREE.Vector3(
+                radius * Math.cos(theta) * Math.sin(phi),
+                radius * Math.cos(theta) * Math.cos(phi),
+                radius * Math.sin(theta)
+              )
+            );
+          }
+          // マテリアルを作成
+          const material = new THREE.PointsMaterial({
+            size: 10,
+            color: 0xffffff
+          });
+
+          // 物体を作成
+          const mesh = new THREE.Points(geometry, material);
+          scene.add(mesh);
+        }
+
+
+        var sec = 120
+ 
+        // 開始日時を設定
+        var dt = new Date();
+        console.log("Start: ", dt);
+        // 終了時刻を開始日時+カウントダウンする秒数に設定
+        var endDt = new Date(dt.getTime() + sec * 1000);
+        console.log("End : ", endDt);
+
+        // 1秒おきにカウントダウン
+        var cnt = sec;
+        var id = setInterval(function(){
+            cnt--;
+            console.log(cnt);
+            let display = document.getElementById("displayNumber");
+            display.innerHTML = cnt;
+            let point = document.getElementById("earnedPoints");
+
+            let score_now = 0
+            for(let i = 1; i< 11; i++){
+                score_now += light[i]*100;
+                if(i<6){
+                    score_now -= dark[i]*500;
+                }
+            }
+            point.innerHTML = score_now;
+
+
+            // 現在日時と終了日時を比較
+            dt = new Date();
+            if(dt.getTime() >= endDt.getTime()){
+            clearInterval(id);
+            console.log("Finish!");
+            let canvas = document.getElementById("myCanvas");
+            canvas.style.display = "none";
+            let afterGame = document.getElementById("afterGame");
+            afterGame.style.display = "block";
+            let totalScore = document.getElementById("totalScore");
+            totalScore.innerHTML = score_now;
+            }
+        }, 1000);
+
+
+        tick();
+
+        // 毎フレーム時に実行されるループイベントです
+        function tick() {
+          // 角度に応じてカメラの位置を設定
+        //   if(camera.position.z<1500){
+        //     camera.position.z +=5;
+        //   }
+          
+          // 原点方向を見つめる
+          //camera.lookAt(new THREE.Vector3(250, 20, 0));
+            location.style.top=cameraPositionZ*164/980+98;
+            location.style.left=cameraPositionX*9/52+95
+            
+            var pads = navigator.getGamepads ? navigator.getGamepads() :
+                   (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+
+            pads = pads[0];
+            if(pads) {
+                //buttons
+                var but = [];
+                for(var i = 0 ; i < pads.buttons.length; i++) {
+                    var val = pads.buttons[i];
+                    var pressed = val == 1.0;
+                    if (typeof(val) == "object") {
+                        pressed = val.pressed;
+                        val     = val.value;
+                    }
+                    but[i] = val;
+                }
+
+                // var txt = [];
+                // txt += pads.id + "<br>";
+                // for(var i = 0 ; i < but.length; i++) {
+                //     if( but[i] == 1)  txt += '<input type="checkbox" checked="checked">';
+                //     else              txt += '<input type="checkbox" >';
+                // }
+
+                var axes = pads.axes;
+                // for(var i = 0 ; i < axes.length; i++) {
+                //     txt += '<br>';
+                //     txt += axes[i] ;
+                // }
+
+
+                if(Math.abs(axes[5])>0.3){
+                    console.log("次の回始まり")
+                    console.log(cameraLookX, cameraLookZ);
+                    diffX = cameraLookX - cameraPositionX;
+                    diffY = cameraLookY - cameraPositionY;
+                    diffZ = cameraLookZ - cameraPositionZ;
+
+                    phi = Math.asin(diffY/20);
+                    // theta = Math.asin(diffZ/(20*Math.sqrt(1-Math.pow(diffY/20,2))));
+                    cameraLookX = cameraPositionX + diffX*Math.cos(phi+axes[5]/22)/Math.cos(phi);
+                    cameraLookY = cameraPositionY + 20*(Math.sin(phi+axes[5]/22));
+                    cameraLookZ = cameraPositionZ + diffZ * Math.cos(phi+axes[5]/22)/Math.cos(phi);
+                    console.log("上下")
+                    console.log(diffZ);
+                    console.log(cameraLookX, cameraLookZ);
+                }
+
+                if(Math.abs(axes[2])>0.9){
+                    console.log(cameraLookX, cameraLookZ);
+                    diffX = cameraLookX - cameraPositionX;
+                    diffZ = cameraLookZ - cameraPositionZ;
+                    console.log("違いの部分は、", diffX, diffZ);
+                    cameraLookX = cameraPositionX + 20*diffX/(Math.sqrt(diffX*diffX + diffZ * diffZ));
+                    cameraLookY = cameraPositionY;
+                    cameraLookZ = cameraPositionZ + 20*diffZ/(Math.sqrt(diffX*diffX + diffZ * diffZ));
+                    console.log("むき合わせた")
+                    console.log(cameraLookX, cameraLookZ);
+                }
+
+                
+
+                if(Math.abs(axes[0])>0.3){
+                    diffX = cameraLookX - cameraPositionX;
+                    diffZ = cameraLookZ - cameraPositionZ;
+                    distance = Math.sqrt(diffX*diffX + diffZ * diffZ);
+                    
+                    cameraLookX = cameraPositionX + 20*(diffX * Math.cos(axes[0]/21) - diffZ * Math.sin(axes[0]/21))/distance;
+                    cameraLookZ = cameraPositionZ + 20*(diffX * Math.sin(axes[0]/21) + diffZ * Math.cos(axes[0]/21))/distance;
+                    
+                }
+
+                diffX = cameraLookX - cameraPositionX;
+                diffY = cameraLookY - cameraPositionY;
+                diffZ = cameraLookZ - cameraPositionZ;
+
+                if (Math.abs(axes[1])>0.3){
+                    cameraPositionX = cameraPositionX + diffX*axes[1]/3;
+                    cameraPositionY = cameraPositionY + diffY*axes[1]/3;
+                    cameraPositionZ = cameraPositionZ + diffZ*axes[1]/3;
+
+                    cameraLookX = cameraLookX + diffX*axes[1]/3;
+                    cameraLookY = cameraLookY + diffY*axes[1]/3;
+                    cameraLookZ = cameraLookZ + diffZ*axes[1]/3;
+                }
+
+                if (axes[7]>0.9){
+                    cameraPositionX = 260;
+                    cameraPositionY = 20;
+                    cameraPositionZ = 490;
+
+                    cameraLookX = 260;
+                    cameraLookY = 20;
+                    cameraLookZ = 470;
+                }
+
+
+            
+                //console.log(axes);
+                // document.getElementById("disp").innerHTML = txt;
+            }else{
+
+                // A 左回り
+                // D 右回り
+                // W 前進
+                // Z 後退
+                // S 停止
+                // K 上をむく
+                // J 下をむく
+                // E 目線と並行にする
+                diffX = cameraLookX - cameraPositionX;
+                diffY = cameraLookY - cameraPositionY;
+                diffZ = cameraLookZ - cameraPositionZ;
+
+                if(keyCode == 75){
+                    //上移動
+                    // console.log("次の回始まり")
+                    // console.log(cameraLookX, cameraLookZ);
+                    // diffX = cameraLookX - cameraPositionX;
+                    // diffY = cameraLookY - cameraPositionY;
+                    // diffZ = cameraLookZ - cameraPositionZ;
+
+                    phi = Math.asin(diffY/20);
+                    // theta = Math.asin(diffZ/(20*Math.sqrt(1-Math.pow(diffY/20,2))));
+                    cameraLookX = cameraPositionX + diffX*Math.cos(phi+1/22)/Math.cos(phi);
+                    cameraLookY = cameraPositionY + 20*(Math.sin(phi+1/22));
+                    cameraLookZ = cameraPositionZ + diffZ * Math.cos(phi+1/22)/Math.cos(phi);
+                    // console.log("上下")
+                    // console.log(diffZ);
+                    // console.log(cameraLookX, cameraLookZ);
+                }
+                if(keyCode == 74){
+                    //下移動
+                    // console.log("次の回始まり")
+                    // console.log(cameraLookX, cameraLookZ);
+                    // diffX = cameraLookX - cameraPositionX;
+                    // diffY = cameraLookY - cameraPositionY;
+                    // diffZ = cameraLookZ - cameraPositionZ;
+
+                    phi = Math.asin(diffY/20);
+                    // theta = Math.asin(diffZ/(20*Math.sqrt(1-Math.pow(diffY/20,2))));
+                    cameraLookX = cameraPositionX + diffX*Math.cos(phi-1/22)/Math.cos(phi);
+                    cameraLookY = cameraPositionY + 20*(Math.sin(phi-1/22));
+                    cameraLookZ = cameraPositionZ + diffZ * Math.cos(phi-1/22)/Math.cos(phi);
+                    // console.log("上下")
+                    // console.log(diffZ);
+                    // console.log(cameraLookX, cameraLookZ);
+                }
+
+                if(keyCode == 69){
+                    //目線と並行
+                    // console.log(cameraLookX, cameraLookZ);
+                    // diffX = cameraLookX - cameraPositionX;
+                    // diffZ = cameraLookZ - cameraPositionZ;
+                    // console.log("違いの部分は、", diffX, diffZ);
+                    cameraLookX = cameraPositionX + 20*diffX/(Math.sqrt(diffX*diffX + diffZ * diffZ));
+                    cameraLookY = cameraPositionY;
+                    cameraLookZ = cameraPositionZ + 20*diffZ/(Math.sqrt(diffX*diffX + diffZ * diffZ));
+                    // console.log("むき合わせた")
+                    // console.log(cameraLookX, cameraLookZ);
+                }
+
+                
+
+                if(keyCode == 68){
+                    //右回り
+                    // diffX = cameraLookX - cameraPositionX;
+                    // diffZ = cameraLookZ - cameraPositionZ;
+                    distance = Math.sqrt(diffX*diffX + diffZ * diffZ);
+                    
+                    cameraLookX = cameraPositionX + 20*(diffX * Math.cos(1/21) - diffZ * Math.sin(1/21))/distance;
+                    cameraLookZ = cameraPositionZ + 20*(diffX * Math.sin(1/21) + diffZ * Math.cos(1/21))/distance;
+                    
+                }
+
+                if(keyCode == 65){
+                    //左回り
+                    // diffX = cameraLookX - cameraPositionX;
+                    // diffZ = cameraLookZ - cameraPositionZ;
+                    distance = Math.sqrt(diffX*diffX + diffZ * diffZ);
+                    
+                    cameraLookX = cameraPositionX + 20*(diffX * Math.cos(-1/21) - diffZ * Math.sin(-1/21))/distance;
+                    cameraLookZ = cameraPositionZ + 20*(diffX * Math.sin(-1/21) + diffZ * Math.cos(-1/21))/distance;
+                    
+                }
+                
+
+                if (keyCode == 87){
+                    // 前進
+                    cameraPositionX = cameraPositionX + diffX*1/3;
+                    cameraPositionY = cameraPositionY + diffY*1/3;
+                    cameraPositionZ = cameraPositionZ + diffZ*1/3;
+
+                    cameraLookX = cameraLookX + diffX*1/3;
+                    cameraLookY = cameraLookY + diffY*1/3;
+                    cameraLookZ = cameraLookZ + diffZ*1/3;
+                }
+                if (keyCode == 90){
+                    // 後退
+                    cameraPositionX = cameraPositionX - diffX*1/3;
+                    cameraPositionY = cameraPositionY - diffY*1/3;
+                    cameraPositionZ = cameraPositionZ - diffZ*1/3;
+
+                    cameraLookX = cameraLookX - diffX*1/3;
+                    cameraLookY = cameraLookY - diffY*1/3;
+                    cameraLookZ = cameraLookZ - diffZ*1/3;
+                }
+
+                if (keyCode == 82){
+                    // スタートに戻る
+                    cameraPositionX = 260;
+                    cameraPositionY = 20;
+                    cameraPositionZ = 490;
+
+                    cameraLookX = 260;
+                    cameraLookY = 20;
+                    cameraLookZ = 470;
+                }
+                if (keyCode == 83){
+                    // ストップ
+                }
+
+            }
+                
+
+            // cameraPositionZ -= 1;
+            // cameraLookZ -=1;
+
+            camera.position.set(cameraPositionX, cameraPositionY, cameraPositionZ);
+            camera.lookAt(new THREE.Vector3(cameraLookX, cameraLookY, cameraLookZ));
+            if(force){
+                ground_Mesh.material.color = new THREE.Color(0x0000ff);
+            }else{
+                ground_Mesh.material.color = new THREE.Color(0x888888);
+            }
+
+            for(let i = 1; i< 11; i++){
+                let distance = Math.sqrt(Math.pow((cameraPositionX-eval("lightball_"+i).position.x),2)+Math.pow((cameraPositionY-eval("lightball_"+i).position.y),2) + Math.pow((cameraPositionZ-eval("lightball_"+i).position.z),2));
+                if(distance<200){
+                    if(force){
+                        eval("lightball_"+i).position.x -= (eval("lightball_"+i).position.x-cameraPositionX)/10;
+                        eval("lightball_"+i).position.y -= (eval("lightball_"+i).position.y-cameraPositionY+20)/10;
+                        eval("lightball_"+i).position.z -= (eval("lightball_"+i).position.z-cameraPositionZ)/10;
+                        if(distance< 30){
+                            scene.remove(eval("lightball_"+i));
+                            light[i]=1;
+                        }
+                    }
+                }
+            }
+
+            
+            for(let i = 1; i< 6; i++){
+                let distance = Math.sqrt(Math.pow((cameraPositionX-eval("darkball_"+i).position.x),2)+Math.pow((cameraPositionY-eval("darkball_"+i).position.y),2) + Math.pow((cameraPositionZ-eval("darkball_"+i).position.z),2));
+                if(distance<80){
+                    if(force){
+                        eval("darkball_"+i).position.x -= (eval("darkball_"+i).position.x-cameraPositionX)/10;
+                        eval("darkball_"+i).position.y -= (eval("darkball_"+i).position.y-cameraPositionY+20)/10;
+                        eval("darkball_"+i).position.z -= (eval("darkball_"+i).position.z-cameraPositionZ)/10;
+                        if(distance< 30){
+                            scene.remove(eval("darkball_"+i));
+                            dark[i]=1;
+                        }
+                    }
+                }
+            }
+          // レンダリング
+          renderer.render(scene, camera);
+
+          requestAnimationFrame(tick);
+        }
+      }
+    </script>
+    <title>Use the Force</title>
+    <link rel="stylesheet" href="stylesheet.css">
+  </head>
+  <body>
+    <div id = "disp"></div>
+    <div id = "count" class="count">
+        <div class="remain">Remaining...</div>
+        <div id="displayNumber"></div>
+        <div class="seconds">sec</div>
+    </div>
+    <div class="point">
+        <div id="earnedPoints"></div>
+        <div class="points">points</div>
+    </div>
+    <canvas id="myCanvas"></canvas>
+    <img src="img/map.png" alt="" id="map">
+    <div id="location" class="location"></div>
+    <video id="videoInput" width="600px" height="400px"></video>
+    <canvas id="afterHSV" width="600px" height="400px"></canvas>
+    <div id="afterGame">
+        <div class="message_top">
+            <p class="congrats">Congrats!</p>
+            <p class="you_earned">You Earned</p>
+        </div>
+        <div id="totalScore"></div>
+        <div class="points">points</div>
+        <button id="reload">Play Again</button>
+    </div>
+    <script src="js/main.js"></script>
+    <script src="https://docs.opencv.org/3.4.1/opencv.js" onload="onOpenCvReady();"></script>
+  </body>
+</html>

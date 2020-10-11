@@ -1,0 +1,86 @@
+body{
+    background-color: black;
+    color: yellow;
+}
+#titles{
+    position: absolute;
+    width: 100em;
+    height: 50em;
+    bottom: 0;
+    left: 50%;
+    margin-left: -50em;
+    font-size: 300%;
+    font-weight: bold;
+    text-align: justify;
+    overflow: hidden;
+    transform-origin: 50% 100%;
+    transform: perspective(300px) rotateX(18deg);
+    margin-top: -200px;
+}
+
+p{
+    text-align: center;
+}
+h1, h2, h3, h4{
+    text-align: center;
+}
+
+h1{
+    font-size: 300%;
+}
+
+button{
+    width: 160px;
+    height: 40px;
+    font-size: 20px;
+    position: fixed;
+    right: 40px;
+    bottom: 20px;
+    background-color: black;
+    border: 1px solid yellow;
+    color: yellow;
+    cursor: pointer;
+}
+
+img{
+    width: 300px;
+    opacity: 0.5;
+    position: fixed;
+    right: 40px;
+    top: 20px;
+    transition-duration: 100ms;
+}
+
+img:hover{
+    opacity: 1;
+    width: 460px;
+}
+
+
+ul{
+    text-align: center;
+}
+#titles:after{
+    position: absolute;
+    content: ' ';
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 60%;
+    background-image: linear-gradient(top, rgba(0,0,0,1) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+#titlecontent{
+    position: absolute;
+    top: 100%;
+    right: 0px;
+    left: 0px;
+    margin: 0 auto;
+    animation: scroll 100s linear -2s infinite;
+}
+
+@keyframes scroll {
+    0% { top: 100%; }
+    100% { top: -200%; }
+}

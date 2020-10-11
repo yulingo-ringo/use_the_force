@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use the Force</title>
+</head>
+<body>
+    <h1 id="title">Check Hand Detection</h1>
+    <div id="message">Loading machine learning model...<br>Please wait a little more...</div>
+    <div id="checkOpenCV" class="checkopenCV">
+        <div class="input">           
+            <video id="videoInput" width="600px" height="330px"></video>
+            <h4>Normal Video</h4>
+        </div>
+        <div class="output">           
+            <canvas id="canvasOutput" width="600px" height="360px"></canvas>
+        </div>     
+    </div>
+        <div id="forceReady">You are not using the Force, hold out your hand over the camera</div>
+        <button class = "button" onclick="location.href='readme.html'">Read How to Play</button>
+        <button onclick="location.href='checkOpenCV.html'">Switch to Color Detection</button>  
+        <button onclick="location.href='game_hand.html'">Start</button>       
+    <script src="https://cdn.jsdelivr.net/npm/handtrackjs@0.0.13/dist/handtrack.min.js"></script>
+    <script>
+        const canvas = document.getElementById("canvasOutput");
+        const context = canvas.getContext('2d');
+        const video = document.getElementById('videoInput');
+
+        let model;
+        const options = {
+        flipHorizontal: true,   // flip e.g for video  
+        maxNumBoxes: 1,        // maximum number of boxes to detect
+        iouThreshold: 0.9,      // ioU threshold for non-max suppression
+        scoreThreshold: 0.7,    // confidence threshold for predictions.
+        };
+        handTrack.load(options).then(l_model => {
+        model = l_model;
+        document.getElementById('message').innerText = 'machine learning model loaded!';
+        document.getElementById("checkOpenCV").style.display = "block"
+        document.getElementById("forceReady").style.display = "block"
+        handTrack.startVideo(video).then(function (status) {
+            if (status) {
+            console.log("video started", status);
+            runDetection();
+            } else {
+            console.log("video error", status);
+            }
+        });
+        });
+
+        function runDetection() {
+        model.detect(video).then(predictions => {
+            console.log("Predictions: ", predictions);
+            if(predictions[0]){
+                forceReady.innerHTML = "USING THE FORCE!!!"
+            }else{
+                forceReady.innerHTML = "You are not using the Force, hold out your hand over the camera"
+            }
+            model.renderPredictions(predictions, canvas, context, video);
+            requestAnimationFrame(runDetection);
+        });
+        }
+    </script>
+    <link rel="stylesheet" href="hand.css">
+</body>
+</html>

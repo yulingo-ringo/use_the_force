@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use the Force</title>
+</head>
+<body>
+    <h1>Check OpenCV</h1>
+    <div class="checkopenCV">
+        <div class="input">           
+            <video id="videoInput" width="360px" height="220px"></video>
+            <h4>Normal Video</h4>
+        </div>
+        <div class="output">           
+            <canvas id="canvasOutput" width="300px" height="220px"></canvas>
+            <h4>Show HSV Converted Video</h4>
+        </div>
+
+        <div class="yellow">
+            <canvas id="afterHSV" width="400px" height="220px"></canvas>
+            <h4>Yellow Extracted</h4>
+        </div>
+
+        
+    </div>
+        <div id="forceReady">You are not using the Force, hold out your hand over the camera</div>
+        <button class = "button" onclick="location.href='readme.html'">Read How to Play</button>
+        <button onclick="location.href='hand_detection.html'">Switch to Hand Detection</button>  
+        <button onclick="location.href='game.html'">Start</button>
+    <script src="js/check.js"></script>
+    <script src="https://docs.opencv.org/3.4.1/opencv.js" onload="onOpenCvReady();"></script>
+    <link rel="stylesheet" href="check.css">
+</body>
+</html>

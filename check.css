@@ -1,0 +1,44 @@
+body {
+  text-align: center;
+  background-color: black;
+  color: #FEE12B;
+}
+
+body h1 {
+  margin-top: 120px;
+}
+
+body .checkopenCV {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 1160px;
+  margin: 120px auto 0 auto;
+  text-align: center;
+}
+
+body .checkopenCV h4 {
+  font-size: 12px;
+  font-weight: 100;
+}
+
+body .checkopenCV #afterHSV, body .checkopenCV #canvasOutput {
+  margin-left: 40px;
+}
+
+body #forceReady {
+  margin-top: 90px;
+  margin-bottom: 90px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+body button {
+  width: 200px;
+  height: 40px;
+  padding: 10px;
+  background-color: black;
+  border: 1px solid #FEE12B;
+  color: #FEE12B;
+}
+/*# sourceMappingURL=check.css.map */

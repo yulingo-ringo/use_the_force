@@ -1,0 +1,150 @@
+body {
+  background-color: black;
+  height: 100vh;
+}
+
+body .title {
+  width: 300px;
+  text-align: center;
+  color: white;
+  position: absolute;
+  top: 220px;
+  left: 300px;
+}
+
+body .title h1 {
+  font-size: 40px;
+}
+
+body .title .button {
+  width: 120px;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+  font-size: 12px;
+}
+
+body #message {
+  color: white;
+  text-align: center;
+}
+
+body #map {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 200px;
+}
+
+body .location {
+  position: absolute;
+  top: 180px;
+  left: 140px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+body .count {
+  background-color: white;
+  width: 220px;
+  height: 80px;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  padding-left: 20px;
+  padding-top: 8px;
+  opacity: 0.8;
+}
+
+body .count #displayNumber {
+  padding-right: 80px;
+  font-weight: 700;
+  font-size: 30px;
+  text-align: right;
+}
+
+body .count .seconds {
+  margin-top: -20px;
+  padding-left: 170px;
+}
+
+body .point {
+  background-color: white;
+  width: 220px;
+  height: 60px;
+  position: absolute;
+  top: 130px;
+  right: 30px;
+  padding-left: 20px;
+  padding-top: 20px;
+  opacity: 0.8;
+}
+
+body .point #earnedPoints {
+  padding-right: 80px;
+  font-weight: 700;
+  font-size: 30px;
+  text-align: right;
+}
+
+body .point .points {
+  margin-top: -20px;
+  padding-left: 170px;
+}
+
+body .iphone {
+  color: white;
+  display: none;
+  position: absolute;
+  top: 60px;
+  left: 30px;
+}
+
+body #afterGame {
+  width: 800px;
+  height: 400px;
+  margin: 100px auto;
+  text-align: center;
+  color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  font-size: 40px;
+  display: none;
+  padding-top: 40px;
+}
+
+body #afterGame .congrats {
+  font-size: 40px;
+}
+
+body #afterGame .you_earned {
+  font-size: 24px;
+}
+
+body #afterGame .points {
+  font-size: 24px;
+}
+
+body #afterGame #reload {
+  margin-top: 40px;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+}
+
+body #disp {
+  display: none;
+}
+
+body #videoInput {
+  display: none;
+}
+
+body #afterHSV {
+  display: none;
+}
+/*# sourceMappingURL=stylesheet.css.map */
