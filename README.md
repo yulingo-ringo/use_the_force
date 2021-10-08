@@ -1,3 +1,5 @@
+![usetheforce.png](usetheforce.png)
+
 # What is Use The Force?
 
 It is a Web based game mainly using Three.js, OpenCV.js, and Gamepad API.
