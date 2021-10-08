@@ -14,6 +14,8 @@ You can also use your gamepad to play this game.
 access the url below
 https://use-the-force.s3-ap-northeast-1.amazonaws.com/start.html
 
+---
+
 #### 2020.10.7 UPDATE
 
 handtrack.js is applied to load pretrained model for hand (see https://github.com/victordibia/handtrack.js/)
